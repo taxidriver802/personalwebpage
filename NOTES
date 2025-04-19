@@ -54,3 +54,101 @@ Skill Tags: Auto-generate or manually assign tags like “React,” “Express,�
 Follow System: Follow other users on your app (not GitHub itself).
 
 Private Notes: Add private notes visible only to you on each repo.
+
+<!-- -------------------------------------------------------------------- -->
+
+🔐 What is GitHub Login?
+It uses OAuth 2.0, a secure authorization protocol. Users click “Login with GitHub,” get redirected to GitHub, approve access, and are redirected back to your app with an authorization code.
+
+You then exchange that code for an access token, which you can use to make authorized API requests on their behalf.
+
+🛠️ How to Implement It (Step-by-Step)
+
+1. Create a GitHub OAuth App
+   Go to GitHub Developer Settings
+
+Click "New OAuth App"
+
+Fill in:
+
+App Name
+
+Homepage URL (your dev server, e.g., http://localhost:3000)
+
+Authorization callback URL (e.g., http://localhost:3000/auth/callback)
+
+You’ll receive:
+
+Client ID
+
+Client Secret (keep it safe)
+
+2. Add a Login Button to Your Frontend
+   jsx
+   Copy
+   Edit
+   <a href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=read:user repo`}>
+   Login with GitHub
+   </a>
+   scope=read:user repo lets you read user info and their repos (even private ones, if they allow).
+
+You’ll be redirected to GitHub's login page.
+
+3. Handle the Redirect in Your Backend
+   Once the user authorizes, GitHub redirects to your backend with a code:
+
+bash
+Copy
+Edit
+GET /auth/callback?code=123456
+Your backend (e.g. Node.js/Express) exchanges this code for an access token:
+
+js
+Copy
+Edit
+const axios = require('axios');
+
+const getAccessToken = async (code) => {
+const response = await axios.post(
+'https://github.com/login/oauth/access_token',
+{
+client_id: CLIENT_ID,
+client_secret: CLIENT_SECRET,
+code,
+},
+{
+headers: { Accept: 'application/json' },
+}
+);
+return response.data.access_token;
+}; 4. Use the Access Token
+Once you have the token, use it to fetch the user’s info:
+
+js
+Copy
+Edit
+const userInfo = await axios.get('https://api.github.com/user', {
+headers: {
+Authorization: `token ${accessToken}`,
+},
+});
+And their private repos (if allowed):
+
+js
+Copy
+Edit
+const repos = await axios.get('https://api.github.com/user/repos', {
+headers: {
+Authorization: `token ${accessToken}`,
+},
+}); 5. Store the Token Securely
+Store it in a session or JWT, not on the client-side directly.
+
+Don’t expose the client secret in the frontend ever.
+
+🧠 Optional Ideas
+Store user profile data in your database after login.
+
+Let users log out (invalidate the session or token).
+
+Combine this with your own user system (username, favorites, comments, etc.)
