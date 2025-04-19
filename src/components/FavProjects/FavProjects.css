@@ -1,0 +1,6 @@
+.fav-project_list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-right: 20px;
+}

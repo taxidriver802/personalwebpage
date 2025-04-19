@@ -1,10 +1,25 @@
 import React from 'react';
 
+import './Projects.css';
+
+import defaultProjects from '../../data/ProjectData.js';
+
+import ProjectItem from '../ProjectItem/ProjectItem.jsx';
+
 const Projects = () => {
   return (
     <section className="projects">
-      <h2>My Projects</h2>
-      <p>List of project cards will go here.</p>
+      <h2>All Projects</h2>
+      {Object.values(defaultProjects).map((project) => (
+        <ProjectItem
+          key={project.id}
+          title={project.title}
+          description={project.description}
+          githubUrl={project.githubUrl}
+          deployedUrl={project.deployedUrl}
+          creationDate={project.creationDate}
+        />
+      ))}
     </section>
   );
 };
