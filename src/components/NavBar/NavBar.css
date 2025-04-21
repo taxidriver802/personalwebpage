@@ -3,34 +3,13 @@
   justify-content: space-around;
   align-items: center;
   padding: 20px;
-}
-
-.nav-links {
-  display: flex;
-  justify-content: space-around;
-  height: 100%;
-  width: 100%;
-  max-width: 300px;
-  color: black;
-  padding: 0;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 10px;
-  margin-left: auto;
-}
-
-.nav-buttons button {
-  background-color: #0073e6;
+  background-color: #333;
   color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
 }
 
-.nav-buttons button:hover {
-  background-color: #005bb5;
+.nav__logo {
+  height: 75px;
+  width: 75px;
+  margin-right: auto;
 }

@@ -1,0 +1,11 @@
+<svg width="64" height="64" viewBox="0 0 250 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Creature face shape -->
+  <path d="M105 85C105 77 113 70 125 70C137 70 145 77 145 85C145 96 135 100 125 100C115 100 105 96 105 85Z" fill="#C9D1D9"/>
+
+  <!-- Creature eyes -->
+  <circle cx="115" cy="93" r="4" fill="#0D1117"/>
+  <circle cx="135" cy="93" r="4" fill="#0D1117"/>
+
+  <!-- Creature mouth -->
+  <path d="M115 107C115 105.5 116.5 104 118.5 104H131.5C133.5 104 135 105.5 135 107V110C135 112 133.5 113.5 131.5 113.5H118.5C116.5 113.5 115 112 115 110V107Z" fill="#C9D1D9"/>
+</svg>
