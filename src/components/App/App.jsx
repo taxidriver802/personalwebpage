@@ -23,7 +23,6 @@ function App() {
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      console.log('User data found in localStorage:', storedUser);
       setUserData(JSON.parse(storedUser));
     } else if (location.pathname !== '/signup') {
       navigate('/signup');
