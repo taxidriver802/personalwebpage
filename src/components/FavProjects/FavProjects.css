@@ -1,6 +1,18 @@
-.fav-project_list {
+.fav__projects-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 20px 0 10px;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.fav__projects-list {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   margin-right: 20px;
+}
+
+.fav__projects-button {
+  margin-left: auto;
 }

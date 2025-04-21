@@ -1,61 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import Navbar from '../NavBar/NavBar.jsx';
-import Home from '../Home/Home.jsx';
+
 import Projects from '../Projects/Projects.jsx';
-import Contact from '../Contact/Contact.jsx';
+
+import Profile from '../Profile/Profile.jsx';
+import SignUp from '../SignUp/SignUp.jsx';
 import './App.css';
 
-import fetchRepos from '../../data/RepoApi.js';
-
 function App() {
-  const [repoList, setRepoList] = useState({
-    title: '',
-    description: '',
-    githubUrl: '',
-    deployedUrl: '',
-    creationDate: '',
-    id: '',
-  });
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  function fetchReposList() {
-    fetchRepos().then((repos) => {
-      const updatedRepoList = repos.map((repo) => {
-        /* console.log(repo); */
-        return {
-          title: repo.name,
-          description: repo.description || 'No description available',
-          githubUrl: repo.clone_url,
-          deployedUrl: repo.homepage || 'No deployed URL available',
-          creationDate: repo.created_at,
-          id: repo.id,
-          isFavorite: false,
-        };
-      });
-      setRepoList(updatedRepoList);
-    });
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser));
+    } else if (location.pathname !== '/signup') {
+      navigate('/signup');
+    }
+    setIsLoading(false);
+  }, [navigate, location.pathname]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
-
-  useEffect(() => {
-    fetchReposList();
-  }, []);
-
-  useEffect(() => {
-    console.log(repoList, 'repoList from App.jsx');
-  }, [repoList]);
 
   return (
     <>
-      <Navbar />
+      {location.pathname !== '/signup' && <Navbar userData={userData} />}
       <div className="App">
-        <section id="home">
-          <Home />
-        </section>
-        <section id="projects">
-          <Projects />
-        </section>
-        <section id="contact">
-          <Contact />
-        </section>
+        <Routes>
+          <Route
+            path="/"
+            element={<Navigate to={userData ? '/profile' : '/signup'} />}
+          />
+          <Route
+            path="/signup"
+            element={<SignUp setUserData={setUserData} />}
+          />
+          <Route
+            path="/profile"
+            element={
+              userData ? (
+                <Profile userData={userData} />
+              ) : (
+                <Navigate to="/signup" replace />
+              )
+            }
+          />
+          <Route path="/projects" element={<Projects />} />
+        </Routes>
       </div>
     </>
   );

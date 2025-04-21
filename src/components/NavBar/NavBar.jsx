@@ -1,44 +1,49 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './NavBar.css';
 
-const Navbar = () => {
+import ProfileModal from '../ProfileModalForm/ProfileModalForm';
+
+const Navbar = ({ userData }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleOpenModal = () => {
+    setIsModalOpen('open');
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen('close');
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/signup');
+  };
+
   return (
-    <div className="navbar">
-      <ul className="nav-links">
-        <li>
-          <a href="#home">Home</a>
-        </li>
-        <li>
-          <a href="#projects">Projects</a>
-        </li>
-        <li>
-          <a href="#contact">Contact</a>
-        </li>
-      </ul>
-      <div className="nav-buttons">
-        <button
-          onClick={() =>
-            window.open(
-              'https://www.linkedin.com/in/jason-cox-067066237/',
-              '_blank'
-            )
-          }
-        >
-          LinkedIn
-        </button>
-        <button
-          onClick={() =>
-            window.open('https://github.com/taxidriver802', '_blank')
-          }
-        >
-          GitHub
-        </button>
-        <button onClick={() => window.open('/path-to-resume.pdf', '_blank')}>
-          Download Resume
-        </button>
+    <>
+      <div className="navbar">
+        <img
+          src="/assets/tech_creature_logo.svg"
+          alt="Logo"
+          className="nav__logo"
+        />
+        <div className="navbar__profile">
+          <p className="navbar__profile-name" onClick={handleOpenModal}>
+            {userData?.name || ''}!
+          </p>
+        </div>
       </div>
-    </div>
+      {isModalOpen === 'open' && location.pathname === '/profile' && (
+        <ProfileModal
+          handleCloseModal={handleCloseModal}
+          handleLogout={handleLogout}
+        />
+      )}
+    </>
   );
 };
 

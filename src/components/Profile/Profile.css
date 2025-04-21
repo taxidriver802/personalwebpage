@@ -1,0 +1,31 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  color: white;
+}
+
+.profile__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile__info-text {
+  margin: 5px 0;
+  text-align: center;
+}
+
+.profile__title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 0 10px;
+  text-align: center;
+  border-bottom: 1px solid white;
+}
+
+.profile__projects-button {
+  margin-left: auto;
+}
