@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 
-async function fetchRepos() {
-  const apiUrl = 'https://api.github.com/users/taxidriver802/repos';
+async function fetchRepos(username) {
+  const apiUrl = `https://api.github.com/users/${username}/repos`;
 
   try {
     const response = await fetch(apiUrl);

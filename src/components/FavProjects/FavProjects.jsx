@@ -4,13 +4,13 @@ import defaultProjects from '../../data/ProjectData.js';
 
 import ProjectItem from '../ProjectItem/ProjectItem';
 
-function FavProjects() {
+function FavProjects({ repoList }) {
   return (
     <div className="fav_project">
       <h2>My Favorite Projects</h2>
       <div className="fav-project_list">
-        {Object.values(defaultProjects)
-          .filter((project) => project.isFavorite) // Filter projects with favorite: true
+        {Object.values(repoList || defaultProjects)
+          .filter((project) => project.isFavorite)
           .map((project) => (
             <div className="fav-project_item" key={project.id}>
               <ProjectItem

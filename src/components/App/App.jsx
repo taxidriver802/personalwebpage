@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Navbar from '../NavBar/NavBar.jsx';
 import Home from '../Home/Home.jsx';
 import Projects from '../Projects/Projects.jsx';
@@ -8,36 +8,27 @@ import './App.css';
 import fetchRepos from '../../data/RepoApi.js';
 
 function App() {
-  const [repoList, setRepoList] = useState({
-    title: '',
-    description: '',
-    githubUrl: '',
-    deployedUrl: '',
-    creationDate: '',
-    id: '',
-  });
+  const [repoList, setRepoList] = useState([]);
+  const [username, setUsername] = useState('taxidriver802');
 
-  function fetchReposList() {
-    fetchRepos().then((repos) => {
-      const updatedRepoList = repos.map((repo) => {
-        /* console.log(repo); */
-        return {
-          title: repo.name,
-          description: repo.description || 'No description available',
-          githubUrl: repo.clone_url,
-          deployedUrl: repo.homepage || 'No deployed URL available',
-          creationDate: repo.created_at,
-          id: repo.id,
-          isFavorite: false,
-        };
-      });
+  const fetchReposList = useCallback(() => {
+    fetchRepos(username).then((repos) => {
+      const updatedRepoList = repos.map((repo) => ({
+        title: repo.name,
+        description: repo.description || 'No description available',
+        githubUrl: repo.clone_url,
+        deployedUrl: repo.homepage || 'No deployed URL available',
+        creationDate: repo.created_at,
+        id: repo.id,
+        isFavorite: false,
+      }));
       setRepoList(updatedRepoList);
     });
-  }
+  }, [username]);
 
   useEffect(() => {
     fetchReposList();
-  }, []);
+  }, [fetchReposList]);
 
   useEffect(() => {
     console.log(repoList, 'repoList from App.jsx');
@@ -48,10 +39,19 @@ function App() {
       <Navbar />
       <div className="App">
         <section id="home">
-          <Home />
+          <Home repoList={repoList} />
         </section>
         <section id="projects">
-          <Projects />
+          <div className="github_search">
+            <input
+              type="text"
+              placeholder="Enter GitHub username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <button onClick={fetchReposList}>Search</button>
+          </div>
+          <Projects repoList={repoList} />
         </section>
         <section id="contact">
           <Contact />

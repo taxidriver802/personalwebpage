@@ -6,11 +6,11 @@ import defaultProjects from '../../data/ProjectData.js';
 
 import ProjectItem from '../ProjectItem/ProjectItem.jsx';
 
-const Projects = () => {
+const Projects = ({ repoList }) => {
   return (
     <section className="projects">
       <h2>All Projects</h2>
-      {Object.values(defaultProjects).map((project) => (
+      {Object.values(repoList || defaultProjects).map((project) => (
         <ProjectItem
           key={project.id}
           title={project.title}

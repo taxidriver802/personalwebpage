@@ -11,11 +11,13 @@ function ProjectItem({
     <div className="project-item">
       <h3>{title}</h3>
       <p>{description}</p>
-      <p>{githubUrl}</p>
-      <p>{creationDate}</p>
-      <button onClick={() => window.open(deployedUrl, '_blank')}>
-        View Project
+      <button onClick={() => window.open(githubUrl, '_blank')}>
+        View Project on GitHub
       </button>
+      <button onClick={() => window.open(deployedUrl, '_blank')}>
+        View Deployed Project
+      </button>
+      <p>{creationDate}</p>
     </div>
   );
 }
